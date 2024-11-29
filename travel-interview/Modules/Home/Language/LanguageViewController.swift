@@ -35,7 +35,7 @@ public final class LanguageViewController: BaseViewController {
     
     private func setupUI() {
         view.backgroundColor = .white
-        titleLabel.text = "選擇語言"
+        titleLabel.text = "select_language".localised
         titleLabel.font = .boldSystemFont(ofSize: 20)
         tableView.languageTableViewDelegate = self
     }

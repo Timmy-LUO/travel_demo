@@ -23,6 +23,7 @@ public final class LanguageTableView: UITableView {
         separatorStyle = .none
         alwaysBounceHorizontal = false
         alwaysBounceVertical = false
+        showsVerticalScrollIndicator = false
         register(LanguageTableViewCell.self, forCellReuseIdentifier: LanguageTableViewCell.identifier)
         diffableDataSource = UITableViewDiffableDataSource<Int, String>(tableView: self) { tableView, _, item in
             let cell = tableView.dequeueReusableCell(withIdentifier: LanguageTableViewCell.identifier) as! LanguageTableViewCell

@@ -20,9 +20,9 @@ public final class WelcomeCoordinator: Coordinator {
         navigationController.isNavigationBarHidden = false
         
         let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground() // 設定為不透明
-        appearance.backgroundColor = .systemBlue // 設定背景顏色為藍色
-        appearance.shadowColor = nil // 隱藏底部陰影線（可選）
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .systemBlue
+        appearance.shadowColor = nil
         appearance.titleTextAttributes = [.foregroundColor: "white_FFFFFF".color]
         navigationController.navigationBar.standardAppearance = appearance
         navigationController.navigationBar.scrollEdgeAppearance = appearance

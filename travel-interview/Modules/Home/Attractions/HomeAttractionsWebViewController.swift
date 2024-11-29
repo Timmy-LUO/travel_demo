@@ -24,6 +24,8 @@ public final class HomeAttractionsWebViewController: BaseViewController {
         setupLayout()
     }
     
+    override public var navigationItemTitle: String { attractionsModel.name }
+    
     private func setupUI() {
         if let url = URL(string: attractionsModel.url) {
             let request = URLRequest(url: url)

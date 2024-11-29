@@ -48,6 +48,9 @@
 		62847A982CF615C30078F135 /* HomeAttractionsWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62847A972CF615C30078F135 /* HomeAttractionsWebViewController.swift */; };
 		62847A9B2CF617050078F135 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62847A9A2CF617050078F135 /* BaseViewController.swift */; };
 		62847A9D2CF73D140078F135 /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62847A9C2CF73D140078F135 /* CarouselView.swift */; };
+		62847AA02CF8AA050078F135 /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62847A9F2CF8AA050078F135 /* LanguageManager.swift */; };
+		62847AA32CF98E040078F135 /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62847AA22CF98E040078F135 /* AlertBuilder.swift */; };
+		62847AA52CF98E5F0078F135 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62847AA42CF98E5F0078F135 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +126,9 @@
 		62847A972CF615C30078F135 /* HomeAttractionsWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAttractionsWebViewController.swift; sourceTree = "<group>"; };
 		62847A9A2CF617050078F135 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		62847A9C2CF73D140078F135 /* CarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselView.swift; sourceTree = "<group>"; };
+		62847A9F2CF8AA050078F135 /* LanguageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageManager.swift; sourceTree = "<group>"; };
+		62847AA22CF98E040078F135 /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
+		62847AA42CF98E5F0078F135 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,7 +191,7 @@
 				62847A5C2CEE45600078F135 /* Models */,
 				62847A552CEE346F0078F135 /* Network */,
 				62847A792CF0B8CA0078F135 /* UI */,
-				62847A7E2CF0BB390078F135 /* Extension */,
+				62847A7E2CF0BB390078F135 /* Utility */,
 			);
 			path = "travel-interview";
 			sourceTree = "<group>";
@@ -309,6 +315,7 @@
 		62847A792CF0B8CA0078F135 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				62847AA12CF98DDE0078F135 /* Alert */,
 				62847A992CF616EE0078F135 /* Base */,
 				62847A7A2CF0B8FE0078F135 /* RadioButton.swift */,
 				62847A9C2CF73D140078F135 /* CarouselView.swift */,
@@ -316,12 +323,14 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
-		62847A7E2CF0BB390078F135 /* Extension */ = {
+		62847A7E2CF0BB390078F135 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
 				62847A7F2CF0BB5F0078F135 /* Extension.swift */,
+				62847A9F2CF8AA050078F135 /* LanguageManager.swift */,
+				62847AA42CF98E5F0078F135 /* Utils.swift */,
 			);
-			path = Extension;
+			path = Utility;
 			sourceTree = "<group>";
 		};
 		62847A912CF452450078F135 /* News */ = {
@@ -351,6 +360,14 @@
 				62847A9A2CF617050078F135 /* BaseViewController.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		62847AA12CF98DDE0078F135 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				62847AA22CF98E040078F135 /* AlertBuilder.swift */,
+			);
+			path = Alert;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -508,6 +525,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				62847A682CEF4BAC0078F135 /* AttractionsService.swift in Sources */,
+				62847AA02CF8AA050078F135 /* LanguageManager.swift in Sources */,
 				62847A942CF4527A0078F135 /* HomeNewsDetailViewController.swift in Sources */,
 				62847A782CF0B6A60078F135 /* NewsService.swift in Sources */,
 				62847A662CEE46CE0078F135 /* HomeViewModel.swift in Sources */,
@@ -527,9 +545,11 @@
 				628479F92CEDA2F20078F135 /* SceneDelegate.swift in Sources */,
 				62847A9D2CF73D140078F135 /* CarouselView.swift in Sources */,
 				62847A6A2CEF4C110078F135 /* AttractionsModel.swift in Sources */,
+				62847AA52CF98E5F0078F135 /* Utils.swift in Sources */,
 				62847A2C2CEDA3F80078F135 /* WelcomeCoordinator.swift in Sources */,
 				62847A802CF0BB5F0078F135 /* Extension.swift in Sources */,
 				62847A762CF0B5E60078F135 /* HomeNewsTableView.swift in Sources */,
+				62847AA32CF98E040078F135 /* AlertBuilder.swift in Sources */,
 				62847A302CEE25A30078F135 /* HomeViewController.swift in Sources */,
 				62847A6E2CF0288F0078F135 /* LanguageTableView.swift in Sources */,
 				62847A6C2CEF4FD70078F135 /* LanguageViewController.swift in Sources */,

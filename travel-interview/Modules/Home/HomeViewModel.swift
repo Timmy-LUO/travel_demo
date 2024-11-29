@@ -5,6 +5,7 @@
 //  Created by ZHI on 2024/11/21.
 //
 
+import Foundation
 import Combine
 
 public final class HomeViewModel: ObservableObject {
@@ -20,99 +21,130 @@ public final class HomeViewModel: ObservableObject {
     @Published public var newsList: [HomeNewsUiModel] = []
     @Published public var attractionsList: [HomeAttractionsUiModel] = []
     
-//    var newsResponse: AnyPublisher<NewsResponseModel?, Never> { _newsResponse.eraseToAnyPublisher() }
-//    var attractionsResponse: AnyPublisher<AttractionsResponseModel?, Never> { _attractionsResponse.eraseToAnyPublisher() }
+    public var errorMessage: AnyPublisher<String?, Never> { _errorMessage.eraseToAnyPublisher() }
     
     // internal
-//    private var _newsResponse = CurrentValueSubject<NewsResponseModel?, Never>(nil)
-//    private var _attractionsResponse = CurrentValueSubject<AttractionsResponseModel?, Never>(nil)
+    private var _errorMessage = CurrentValueSubject<String?, Never>(nil)
     
     public init() {
-        
         onLanguage
-            .sink { language in
-                print("language: \(language)")
+            .sink { [weak self] language in
+                self?.changeLanguage(language)
             }
             .store(in: &cancellables)
         
-//        Publishers.CombineLatest(
-//            _newsResponse,
-//            _attractionsResponse
-//        )
-//        .sink { [weak self] news, attractions in
-//            if let news = news, let attractions = attractions {
-//                self?.combineHomeData(news: news, attractions: attractions)
-//            }
-//        }
-//        .store(in: &cancellables)
-            
-        
-//        newsResponse
-//            .compactMap { $0 }
-//            .sink { model in
-//                print("newsModel: \(model)")
-//            }
-//            .store(in: &cancellables)
-        
+        getDefaultLocale()
         getNews()
         getAttractions()
     }
     
-//    private func combineHomeData(news: NewsResponseModel, attractions: AttractionsResponseModel) {
-//        homeData = HomeUiModel(
-//            newsTitle: "最新消息",
-//            newsList: news.data.map { $0.toUiModel() },
-//            attractionsTitle: "遊憩景點",
-//            attractionsList: attractions.data.map { $0.toUiModel() }
-//        )
-//    }
+    private func getDefaultLocale() {
+        if let _ = LanguageManager.instance.languageCode {
+            return
+        }
+        
+        if let languageCode = Locale.current.language.languageCode {
+            LanguageManager.instance.languageCode = "\(languageCode)"
+        }
+    }
+    
+    private func changeLanguage(_ language: String) {
+        let code = toLanguageCode(language: language)
+        LanguageManager.instance.languageCode = code
+        NotificationCenter.default.post(name: .languageDidChange, object: nil)
+        getNews()
+        getAttractions()
+    }
+    
+    private func toLanguageCode(language: String) -> String {
+        var code: String = ""
+        
+        switch language {
+        case "繁體中文":
+            code = "zh-Hant"
+        case "简体中文":
+            code = "zh-Hans"
+        case "English":
+            code = "en"
+        case "日本語":
+            code = "ja"
+        case "한국어":
+            code = "ko"
+        case "Español":
+            code = "es"
+        case "Bahasa Indonesia":
+            code = "id"
+        case "ภาษาไทย":
+            code = "th"
+        case "Tiếng Việt":
+            code = "vi"
+        default:
+            print("Unhandle Language Code")
+        }
+        
+        return code
+    }
+    
+    private func toRequestLanguageCode(language: String) -> String {
+        var code: String = ""
+        
+        switch language {
+        case "zh-Hant":
+            code = "zh-tw"
+        case "zh-Hans":
+            code = "zh-cn"
+        default:
+            code = language
+        }
+        
+        return code
+    }
     
     private func getNews() {
-        NewsService.getNews(language: "zh-tw", page: "1")
+        guard let languageCode = LanguageManager.instance.languageCode else { return }
+        NewsService.getNews(language: toRequestLanguageCode(language: languageCode))
             .request { [weak self] result in
                 switch result {
                 case .success(let response):
                     switch response {
                     case .success(let successBody):
-//                        self?._newsResponse.send(successBody)
                         self?.newsList = successBody.data.map { $0.toUiModel() }
                     case .failure(let failureBody):
-                        print("Failure Response:", failureBody)
+                        self?._errorMessage.send(failureBody.Message)
                     }
                 case .failure(let error):
                     switch error {
                     case .toeknExpired:
-                        print("Token expired, please reauthenticate.")
+                        self?._errorMessage.send("Token expired, please reauthenticate.")
                     case .timeout:
-                        print("Request timed out.")
+                        self?._errorMessage.send("Request timed out.")
                     case .unknown(let error):
-                        print("ERROR: \(error.localizedDescription)")
+                        self?._errorMessage.send("ERROR: \(error.localizedDescription)")
                     }
                 }
             }
     }
     
     private func getAttractions() {
-        AttractionsService.getAllAttractions(language: "zh-tw", page: "1")
+        guard let languageCode = LanguageManager.instance.languageCode else { return }
+        AttractionsService.getAllAttractions(language: toRequestLanguageCode(language: languageCode))
             .request { [weak self] result in
                 switch result {
                 case .success(let response):
                     switch response {
                     case .success(let successBody):
-//                        print("Success:", rsuccessBody)
-//                        self?._attractionsResponse.send(successBody)
                         self?.attractionsList = successBody.data.map { $0.toUiModel() }
                     case .failure(let failureBody):
-                        print("Failure Response:", failureBody)
+                        self?._errorMessage.send(failureBody.Message)
                     }
                 case .failure(let error):
                     switch error {
                     case .toeknExpired:
-                        print("Token expired, please reauthenticate.")
+                        self?._errorMessage.send("Token expired, please reauthenticate.")
                     case .timeout:
-                        print("Request timed out.")
+                        self?._errorMessage.send("Request timed out.")
                     case .unknown(let error):
-                        print("ERROR: \(error)")
+                        self?._errorMessage.send("ERROR: \(error.localizedDescription)")
                     }
                 }
             }

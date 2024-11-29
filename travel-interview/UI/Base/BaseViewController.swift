@@ -41,4 +41,15 @@ open class BaseViewController: UIViewController {
     private func back() {
         navigationController?.popViewController(animated: true)
     }
+    
+//    internal func promptAlert(error: Error, action: (() -> Void)? = nil) {
+//        promptAlert(message: "\(error)", action: action)
+//    }
+    
+    internal func promptAlert(message: String, action: (() -> Void)? = nil) {
+        AlertBuilder()
+            .setMessage(message)
+            .setOkButton(action: action)
+            .show(self)
+    }
 }

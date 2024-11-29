@@ -27,28 +27,13 @@ public final class HomeViewController: BaseViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(setupUI), name: .languageDidChange, object: nil)
         setupUI()
         setupLayout()
         setupBinding()
     }
     
     override public var hidesBackButton: Bool { true }
-    
-    private func setupBinding() {
-//        viewModel.$homeData
-//            .compactMap { $0 }
-//            .sink { [weak self] model in
-//                print("Model: \(model)")
-//            }
-//            .store(in: &cancellables)
-        
-//        viewModel.newsResponse
-//            .compactMap { $0 }
-//            .sink { model in
-//                print("newsModel: \(model)")
-//            }
-//            .store(in: &cancellables)
-    }
     
     @objc private func changeLanguage() {
         let contentViewController = LanguageViewController(viewModel: viewModel)
@@ -61,6 +46,16 @@ public final class HomeViewController: BaseViewController {
         present(contentViewController, animated: true)
     }
     
+    private func setupBinding() {
+        viewModel.errorMessage
+            .compactMap { $0 }
+            .sink { [weak self] message in
+                self?.promptAlert(message: message)
+            }
+            .store(in: &cancellables)
+    }
+    
+    @objc
     private func setupUI() {
         view.backgroundColor = .white
         
@@ -89,7 +84,6 @@ public final class HomeViewController: BaseViewController {
     private func setupLayout() {
         view.addSubview(newsTabButton)
         newsTabButton.snp.makeConstraints { make in
-//            make.width.equalTo(130)
             make.height.equalTo(40)
             make.leading.equalToSuperview().offset(10)
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
@@ -97,9 +91,8 @@ public final class HomeViewController: BaseViewController {
         
         view.addSubview(attractionsButton)
         attractionsButton.snp.makeConstraints { make in
-//            make.width.equalTo(130)
             make.height.equalTo(40)
-            make.leading.equalTo(newsTabButton.snp.trailing).offset(20)
+            make.leading.equalTo(newsTabButton.snp.trailing).offset(10)
             make.centerY.equalTo(newsTabButton.snp.centerY)
         }
         
@@ -118,6 +111,10 @@ public final class HomeViewController: BaseViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .languageDidChange, object: nil)
     }
 }
 
