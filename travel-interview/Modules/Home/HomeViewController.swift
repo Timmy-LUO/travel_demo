@@ -15,7 +15,7 @@ public final class HomeViewController: BaseViewController {
     
     private weak var parentCoordinator: WelcomeCoordinator!
     private var viewModel: HomeViewModel!
-        
+    
     public init(
         _ parentCoordinator: WelcomeCoordinator,
         viewModel: HomeViewModel
